@@ -2,8 +2,14 @@ package liquidjoo.reinventthewheel.study;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.reflections.Reflections;
+import org.reflections.util.ClasspathHelper;
+import org.reflections.util.ConfigurationBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+
+import java.util.Set;
 
 public class ReflectionTest {
 
@@ -40,5 +46,15 @@ public class ReflectionTest {
     void constructorWithArgs() {
         Class<Car> clazz = Car.class;
         logger.debug(clazz.getName());
+    }
+
+    @Test
+    void testScanClass() {
+        Reflections reflections = new Reflections(
+                new ConfigurationBuilder()
+                        .setUrls(ClasspathHelper.forPackage("liquidjoo.reinventthewheel.example")));
+
+        final Set<Class<?>> classes = reflections.getTypesAnnotatedWith(Controller.class);
+        classes.forEach(clazz -> logger.debug("controller annotation class : {}", clazz.getName()));
     }
 }
