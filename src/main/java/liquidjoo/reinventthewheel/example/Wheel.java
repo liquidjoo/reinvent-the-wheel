@@ -16,6 +16,9 @@ public class Wheel {
     @Column
     private Integer size;
 
-    @Column
+    @Column(name = "name")
     private Integer price;
+
+    @Transient
+    private String data;
 }
